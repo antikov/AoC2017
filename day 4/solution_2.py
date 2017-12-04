@@ -3,9 +3,7 @@ def is_anagram(word1, word2):
     w2 = list(word2)
     w1.sort()
     w2.sort()
-    if w1 == w2:
-        return True
-    return False
+    return w1 == w2
 
 f = open("input").read().strip().split("\n")
 count = 0
