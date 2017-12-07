@@ -1,21 +1,10 @@
-f = open("input").read().strip().split("\n")
+jump = list(map(int,open("input").read().strip().split("\n")))
 
-jump = list(map(int,f))
-
-print(jump)
-
-start = 0
 steps = 0
-i = 0
-while True:
-    start = i
-    i += jump[i]
-
+index = 0
+while index >= 0 and index < len(jump):
+    start = index
+    index += jump[start]
+    jump[start] += 1 if jump[start] < 3 else -1
     steps += 1
-    if i < 0 or i >= len(jump):
-        break
-    if jump[start] >= 3:
-        jump[start] -= 1
-    else:
-        jump[start] += 1
 print(steps)
