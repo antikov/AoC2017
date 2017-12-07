@@ -1,21 +1,21 @@
-f = list(map(int,open("input").read().split()))
+def getHash(array):
+    return "-".join(str(x) for x in array)
 
-print(f)
+f = list(map(int,open("input").read().split()))
 
 dic = {}
 count = 0
-state = "".join(str(x) for x in f)
-dic[state] = 1
-while True:
-    index = f.index(max(f))
-    f[index] = 0
-    for i in range(index):
-        f[(index+i)%len(f)] += 1
-    count += 1
-    state = "".join(str(x) for x in f)
-    if state in dic:
-        break
-    else:
-        dic[state] = 1
+state = getHash(f)
 
-print(count)
+while state not in dic:
+    dic[state] = count
+    count += 1
+    m = max(f)
+    index = f.index(m)
+    f[index] = 0
+    for i in range(m):
+        f[(index+i+1)%len(f)] += 1
+    state = getHash(f)
+
+print("First answer",count)
+print("Second answer",count - dic[state])
