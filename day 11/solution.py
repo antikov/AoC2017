@@ -6,16 +6,12 @@ def get_distance(coord):
     return abs(coord[0]) + coord[0]/2 - coord[1]
 
 f = list(map(get_coord,open("input").read().strip().split(",")))
-
 i, j = 0, 0
-
-m = 0
+max_distance = 0
 for coord in f:
     i += coord[0]
     j += coord[1]
-    m = max(m,get_distance((i,j)))
+    max_distance = max(max_distance,get_distance((i,j)))
 
-print(i,j)
-print(get_distance((i,j)))
-print(m)
-print(f)
+print("Part 1:",get_distance((i,j)))
+print("Part 2:",max_distance)
