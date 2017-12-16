@@ -1,3 +1,27 @@
+def sparse_hash(text):
+    f = list(map(ord,text))
+    end = [17, 31, 73, 47, 23]
+    f.extend(end)
+    rounds = 64
+    length = 256
+    a = [ i for i in range(length)]
+    current = 0
+    skip = 0
+    for round in range(rounds):
+        for x in f:
+            if (current+x) > length:
+                b = a[current:] + a[:x-(length-current)]
+                b.reverse()
+                a = b[length-current:] + a[x-(length-current):current] + b[:length-current]
+            else:
+                b = a[current:(current+x)]
+                b.reverse()
+                a = a[:current] + b + a[(current+x):]
+            current += (skip + x)
+            current = current % length
+            skip += 1
+    return a
+
 def dense_hash(text):
     result = ""
     for i in range(len(text)//16):
@@ -7,30 +31,8 @@ def dense_hash(text):
         result = result + format(curr,'02x')
     return result
 
-f = list(map(ord,open("input.txt").read().strip()))
+def knot_hash(text):
+    return dense_hash(sparse_hash(text))
 
-end = [17, 31, 73, 47, 23]
-f.extend(end)
-
-rounds = 64
-length = 256
-a = []
-for x in range(length):
-    a.append(x)
-
-current = 0
-skip = 0
-for round in range(rounds):
-    for x in f:
-        if (current+x) > length:
-            b = a[current:] + a[:x-(length-current)]
-            b.reverse()
-            a = b[length-current:] + a[x-(length-current):current] + b[:length-current]
-        else:
-            b = a[current:(current+x)]
-            b.reverse()
-            a = a[:current] + b + a[(current+x):]
-        current += (skip + x)
-        current = current % length
-        skip += 1
-print(dense_hash(a))
+f = open("input").read().strip()
+print(knot_hash(f))
