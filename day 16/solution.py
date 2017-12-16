@@ -15,6 +15,20 @@ def get_dance(text, moves):
             dance[pos1], dance[pos2] = dance[pos2], dance[pos1]
     return "".join(dance)
 
+def get_cycle_count(text, moves):
+    unique = {}
+    i = 0
+    while not text in unique:
+        unique[text] = i
+        text = get_dance(text, moves)
+        i += 1
+    return 1000000000 % (i - unique[text])
+
 
 move_list = open("input").read().strip().split(",")
-print(get_dance("abcdefghijklmnop", move_list))
+text = "abcdefghijklmnop"
+print("Part 1:",get_dance(text, move_list))
+count = get_cycle_count(text, move_list)
+for i in range(count):
+    text = get_dance(text, move_list)
+print("Part 2:",text)
