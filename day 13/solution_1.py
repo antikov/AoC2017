@@ -8,14 +8,6 @@ def get_caught(index, depth):
         return True
     return False
 
-def try_to_pass(delay, firewall):
-    index = delay
-    for depth in firewall:
-        if get_caught(index, depth):
-            return False
-        index += 1
-    return True
-
 f = open("input").read().strip().split("\n")
 answer = 0
 firewall = [-1] * 100
@@ -24,8 +16,9 @@ for line in f:
     index, depth = int(temp[1]), int(temp[2])
     firewall[index] = depth
 
-delay = 0
-while not try_to_pass(delay,firewall):
-    delay += 1
-
-print (delay)
+index = 0
+for depth in firewall:
+    if get_caught(index, depth):
+        answer += index * depth
+    index += 1
+print (answer)
